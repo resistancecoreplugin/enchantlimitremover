@@ -1,0 +1,4 @@
+com\yourdomain\enchantlimitremover\EnchantLimitRemover.class
+com\yourdomain\enchantlimitremover\EnchantmentListener.class
+com\yourdomain\enchantlimitremover\EnchantTabCompleter.class
+com\yourdomain\enchantlimitremover\EnchantCommand.class

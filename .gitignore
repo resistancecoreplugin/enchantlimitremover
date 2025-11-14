@@ -1,0 +1,6 @@
+echo target/ > .gitignore
+echo .idea/ >> .gitignore
+echo *.iml >> .gitignore
+echo .classpath >> .gitignore
+echo .project >> .gitignore
+echo .settings/ >> .gitignore

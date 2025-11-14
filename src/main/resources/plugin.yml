@@ -1,0 +1,192 @@
+name: EnchantLimitRemover
+version: '2.1'
+main: com.resistancecore.enchantlimitremover.EnchantLimitRemover
+api-version: '1.21'
+author: ResistanceCore
+description: Enhanced enchantment limit remover with advanced features and proper limit system
+
+commands:
+  elrenchant:
+    description: EnchantLimitRemover management commands
+    usage: |
+      §6═══════ EnchantLimitRemover Commands ═══════
+      §e/elrenchant add <enchant> <level> §7- Add enchantment to item
+      §e/elrenchant remove <enchant> §7- Remove enchantment from item
+      §e/elrenchant clear §7- Remove all enchantments from item
+      §e/elrenchant list §7- List all available enchantments
+      §e/elrenchant info §7- Show item enchantment info
+      §e/elrenchant reload §7- Reload plugin configuration
+      §6═══════════════════════════════════════════
+    aliases: [elre, elr, enchantlimit]
+    permission: elr.admin
+    permission-message: §cYou don't have permission to use this command!
+
+permissions:
+  # ═══════════════════════════════════════════════════════════════
+  # ADMIN PERMISSIONS
+  # ═══════════════════════════════════════════════════════════════
+  elr.admin:
+    description: Allows access to all EnchantLimitRemover commands
+    default: op
+    children:
+      - elr.use
+      - elr.command.add
+      - elr.command.remove
+      - elr.command.clear
+      - elr.command.list
+      - elr.command.info
+      - elr.command.reload
+  
+  # ═══════════════════════════════════════════════════════════════
+  # BASIC USAGE PERMISSIONS
+  # ═══════════════════════════════════════════════════════════════
+  elr.use:
+    description: Allows using enchantment table without vanilla limits
+    default: op
+  
+  # ═══════════════════════════════════════════════════════════════
+  # INDIVIDUAL COMMAND PERMISSIONS
+  # ═══════════════════════════════════════════════════════════════
+  elr.command.add:
+    description: Allows adding enchantments to items via command
+    default: op
+  elr.command.remove:
+    description: Allows removing enchantments from items via command
+    default: op
+  elr.command.clear:
+    description: Allows clearing all enchantments from items via command
+    default: op
+  elr.command.list:
+    description: Allows listing available enchantments via command
+    default: op
+  elr.command.info:
+    description: Allows viewing item enchantment information via command
+    default: op
+  elr.command.reload:
+    description: Allows reloading plugin configuration via command
+    default: op
+  
+  # ═══════════════════════════════════════════════════════════════
+  # LEVEL-BASED PERMISSIONS
+  # ═══════════════════════════════════════════════════════════════
+  # These permissions determine the maximum enchantment level a player can use
+  # The plugin checks for the highest level permission the player has
+  # If no level permission is found, the base max-enchant-level from config is used
+  
+  elr.level.1:
+    description: Allows enchantments up to level 1
+    default: false
+  elr.level.2:
+    description: Allows enchantments up to level 2
+    default: false
+  elr.level.3:
+    description: Allows enchantments up to level 3
+    default: false
+  elr.level.4:
+    description: Allows enchantments up to level 4
+    default: false
+  elr.level.5:
+    description: Allows enchantments up to level 5
+    default: false
+  elr.level.10:
+    description: Allows enchantments up to level 10
+    default: false
+  elr.level.15:
+    description: Allows enchantments up to level 15
+    default: false
+  elr.level.20:
+    description: Allows enchantments up to level 20
+    default: false
+  elr.level.25:
+    description: Allows enchantments up to level 25
+    default: false
+  elr.level.30:
+    description: Allows enchantments up to level 30
+    default: false
+  elr.level.50:
+    description: Allows enchantments up to level 50
+    default: false
+  elr.level.100:
+    description: Allows enchantments up to level 100
+    default: false
+  elr.level.255:
+    description: Allows enchantments up to level 255 (technical maximum)
+    default: false
+  elr.level.500:
+    description: Allows enchantments up to level 500 (high admin level)
+    default: false
+  elr.level.1000:
+    description: Allows enchantments up to level 1000 (maximum admin level)
+    default: false
+  
+  # ═══════════════════════════════════════════════════════════════
+  # BYPASS PERMISSIONS
+  # ═══════════════════════════════════════════════════════════════
+  elr.bypass.cooldown:
+    description: Bypasses command cooldowns
+    default: op
+  elr.bypass.cost:
+    description: Bypasses economy costs (future feature)
+    default: op
+  elr.bypass.disabled:
+    description: Allows using disabled enchantments
+    default: op
+  elr.bypass.limits:
+    description: Bypasses all enchantment limits (uses absolute-max-level)
+    default: false
+  
+  # ═══════════════════════════════════════════════════════════════
+  # CONVENIENCE PERMISSION GROUPS
+  # ═══════════════════════════════════════════════════════════════
+  elr.user:
+    description: Basic user permissions for enchantment table usage
+    default: false
+    children:
+      - elr.use
+      - elr.level.5
+  
+  elr.vip:
+    description: VIP user permissions with higher enchantment levels
+    default: false
+    children:
+      - elr.use
+      - elr.level.20
+      - elr.command.list
+      - elr.command.info
+  
+  elr.moderator:
+    description: Moderator permissions with command access
+    default: false
+    children:
+      - elr.use
+      - elr.level.50
+      - elr.command.add
+      - elr.command.remove
+      - elr.command.clear
+      - elr.command.list
+      - elr.command.info
+      - elr.bypass.cooldown
+  
+  elr.helper:
+    description: Helper permissions with basic commands
+    default: false
+    children:
+      - elr.use
+      - elr.level.30
+      - elr.command.list
+      - elr.command.info
+      - elr.bypass.cooldown
+  
+  # ═══════════════════════════════════════════════════════════════
+  # WILDCARD PERMISSIONS
+  # ═══════════════════════════════════════════════════════════════
+  elr.*:
+    description: Grants all EnchantLimitRemover permissions
+    default: op
+    children:
+      - elr.admin
+      - elr.level.1000
+      - elr.bypass.cooldown
+      - elr.bypass.cost
+      - elr.bypass.disabled
+      - elr.bypass.limits
